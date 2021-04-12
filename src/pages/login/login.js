@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import "./login.css";
 import { auth } from "../../services/firebase/firebase";
-import { Redirect } from "react-router-dom";
 
 const Login = () => {
   const emailRef = useRef(null);
@@ -16,11 +15,10 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in
         var user = userCredential.user;
-        alert("works");
+        alert("Signed up " + user.email);
         // ...
       })
       .catch((error) => {
-        var errorCode = error.code;
         var errorMessage = error.message;
         alert(errorMessage);
       });
@@ -35,18 +33,17 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in
         var user = userCredential.user;
-        alert("Signed in");
+        alert("Signed in" + user.email);
         // ...
       })
       .catch((error) => {
-        var errorCode = error.code;
         var errorMessage = error.message;
         alert(errorMessage);
       });
   }
 
   return (
-    <form>
+    <div>
       <label>
         Email:
         <input ref={emailRef} type="email" />
@@ -57,7 +54,7 @@ const Login = () => {
       </label>
       <button onClick={signUp}>SignUp</button>
       <button onClick={signIn}>SignIn</button>
-    </form>
+    </div>
   );
 };
 

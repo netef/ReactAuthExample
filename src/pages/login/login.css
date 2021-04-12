@@ -1,7 +1,8 @@
-form{
+div{
     display: flex;
     flex-direction: column;
-    margin-top: 20vh;
-    width: 30vw;
+    width: 100%;
     align-items: center;
+    justify-content: center;
+    margin-top: 10%;
 }
