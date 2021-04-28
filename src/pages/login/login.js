@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import "./login.css";
-import { auth } from "../../services/firebase/firebase";
+import { auth, firestore } from "../../services/firebase/firebase";
 
 const Login = () => {
   const emailRef = useRef(null);
@@ -15,7 +15,17 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in
         var user = userCredential.user;
-        alert("Signed up " + user.email);
+        firestore
+          .collection("users")
+          .doc(user.uid)
+          .set({ name: "Netef", age: 26, job: "Engineer" })
+          .then((value) => {
+            alert("Signed up " + value);
+          })
+          .catch((error) => {
+            alert("error: " + error);
+          });
+        
         // ...
       })
       .catch((error) => {

@@ -1,7 +1,7 @@
 import { Route, Switch } from "react-router-dom";
-import Home from "../../pages/home/home";
+import Home from "../../pages/home/Home";
 import Login from "../../pages/login/login";
-import { auth } from "../../services/firebase/firebase";
+import { auth, firestore } from "../../services/firebase/firebase";
 import { useEffect, useState } from "react";
 
 
@@ -14,18 +14,26 @@ useEffect(() => {
       uid: userAuth?.uid,
       email: userAuth?.email,
     };
-    if (userAuth) setUser(user);
+    if (userAuth)
+      firestore
+        .collection("users")
+        .doc(user.uid)
+        .get()
+        .then((value) => setUser(value.data()));
+    //setUser(user);
     else setUser(null);
   });
 }, []);
-  
-  return (
-      user ?
-      <Switch>
-        <Route path="/" exact component={Home} />
-      </Switch>
-      : <Login/>
-    );
+  console.log(user);
+  return user ? (
+    <Switch>
+      <Route path="/" exact >
+        <Home user={user}/>
+      </Route>
+    </Switch>
+  ) : (
+    <Login />
+  );
   
 }
 
